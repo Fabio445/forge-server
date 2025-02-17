@@ -1,0 +1,20 @@
+# Dipendenze
+node_modules/
+
+# Build del progetto
+build/
+
+# File di log
+npm-debug.log
+yarn-error.log
+
+# File di configurazione ambiente
+.env
+
+# Cartelle generate da IDE
+.idea/
+.vscode/
+
+# Sistema operativo
+.DS_Store    # per macOS
+Thumbs.db    # per Windows
