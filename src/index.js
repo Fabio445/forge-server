@@ -1,29 +1,28 @@
-require("dotenv").config(); // Load environment variables
+require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose"); // MongoDB ODM
-const cors = require("cors"); // Enable CORS
-const morgan = require("morgan"); // HTTP request logger
-
-const authRoutes = require("./routes/authRoutes"); // Authentication routes
-const taskRoutes = require("./routes/taskRoutes"); // Task routes
+const mongoose = require("mongoose");
+const cors = require("cors");
+const morgan = require("morgan");
+const authRoutes = require("./routes/userRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 
 const app = express();
-const PORT = process.env.PORT || 5000; // Set port from env or default to 5000
+const PORT = process.env.PORT || 5000;
 
-// Middleware (must be defined before routes)
-app.use(express.json()); // Parse JSON requests
-app.use(cors()); // Enable CORS for all routes
-app.use(morgan("dev")); // Log HTTP requests
+// Middleware
+app.use(express.json());
+app.use(cors());
+app.use(morgan("dev"));
 
-// MongoDB connection
+// DB connection
 mongoose
-  .connect(process.env.MONGO_URI) // Connect to MongoDB using URI from .env
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Routes (defined after middleware)
-app.use("/auth", authRoutes); // Authentication routes
-app.use("/tasks", taskRoutes); // Task routes
+// Routes
+app.use("/users", authRoutes);
+app.use("/tasks", taskRoutes);
 
 // Start server
 app.listen(PORT, () => {
