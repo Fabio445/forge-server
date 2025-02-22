@@ -17,15 +17,18 @@ const validateUser = [
 ];
 
 const validateLogin = [
-  body("username").isLength({ min: 1 }).withMessage("Username is required"),
-  body("password").isLength({ min: 8 }).withMessage("Password is required"),
+  body("username")
+    .optional()
+    .isLength({ min: 1 })
+    .withMessage("Username is required"),
+  body("email").optional().isEmail().withMessage("Email is required"),
+  body("password")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
 ];
 
 const validateTask = [
   body("title").isLength({ min: 1 }).withMessage("Title is required"),
-  body("description")
-    .isLength({ min: 1 })
-    .withMessage("Description is required"),
   body("completed").isBoolean().withMessage("Completed must be a boolean"),
 ];
 

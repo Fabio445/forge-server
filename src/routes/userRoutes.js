@@ -23,11 +23,15 @@ router.post("/signup", validateUser, async (req, res) => {
   // Check if username or email already exists
   const existingUsername = await User.findOne({ username });
   if (existingUsername)
-    return res.status(400).json({ message: "Username already in use" });
+    return res
+      .status(400)
+      .json({ message: "Username or Email already in use" });
 
   const existingEmail = await User.findOne({ email });
   if (existingEmail)
-    return res.status(400).json({ message: "Email already in use" });
+    return res
+      .status(400)
+      .json({ message: "Username or Email already in use" });
 
   // Hash the password
   const salt = await bcrypt.genSalt(10);
@@ -52,10 +56,10 @@ router.post("/login", validateLogin, async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const { username, password } = req.body;
+  const { username, email, password } = req.body;
 
-  // Check if user exists
-  const user = await User.findOne({ username });
+  // Check if user exists by username or email
+  const user = await User.findOne({ $or: [{ username }, { email }] });
   if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
   // Compare passwords
@@ -89,7 +93,9 @@ router.put("/:id", authMiddleware, async (req, res) => {
         _id: { $ne: req.params.id },
       });
       if (existingUsername) {
-        return res.status(400).json({ message: "Username already in use" });
+        return res
+          .status(400)
+          .json({ message: "Username or Email already in use" });
       }
     }
 
@@ -99,7 +105,9 @@ router.put("/:id", authMiddleware, async (req, res) => {
         _id: { $ne: req.params.id },
       });
       if (existingEmail) {
-        return res.status(400).json({ message: "Email already in use" });
+        return res
+          .status(400)
+          .json({ message: "Username or Email already in use" });
       }
     }
 

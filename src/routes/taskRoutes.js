@@ -8,7 +8,7 @@ const { validationResult, validateTask } = require("../middlewares/validation");
 // GET all tasks for the authenticated user
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const tasks = await Task.find({ user: req.user.id });
+    const tasks = await Task.find({ user: req.userId });
     res.json(tasks);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
