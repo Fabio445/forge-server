@@ -21,8 +21,8 @@ mongoose
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // Routes
-app.use("/users", authRoutes);
-app.use("/tasks", taskRoutes);
+app.use("/api/users", authRoutes);
+app.use("/api/tasks", taskRoutes);
 
 // Start server
 app.listen(PORT, () => {
